@@ -15,6 +15,8 @@ CBTIS No. 200 · Programación · 3AM PGR · Docente: Mtro. Omar Torres Sánchez
 
 Tablero del proyecto: (pega aquí la liga de tu tablero de GitHub Projects)
 
+"pendiente"
+
 ## Historias de usuario terminadas
 
 | HU | Historia | Estado |

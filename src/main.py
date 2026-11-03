@@ -14,9 +14,10 @@
 #  El menú principal, main(), llama a cada una según la opción.
 # ==============================================================
 
-from calificaciones import (LIMITE_ALUMNOS, registrar_alumno, validar_calificacion,
-                            calcular_promedio, obtener_estatus, fila_reporte,
-                            promedio_grupal)
+from calificaciones import (LIMITE_ALUMNOS, registrar_alumno, nombre_repetido,
+                            validar_calificacion, calcular_promedio, 
+                            obtener_estatus, fila_reporte, promedio_grupal)
+
 
 NOMBRE_APP = "CalifiApp"
 OBJETIVO = "Registrar y consultar las calificaciones de un grupo desde la consola"
@@ -33,11 +34,12 @@ def opcion_registrar():
         nombre = input("Nombre del alumno: ")
         if nombre.strip() == "":
             break
-        if registrar_alumno(alumnos, nombre):
-            print("  Registrado. Total:", len(alumnos), "de", LIMITE_ALUMNOS)
-        else:
-            print("  No se pudo registrar: el grupo ya tiene", LIMITE_ALUMNOS, "alumnos.")
-            break
+        if nombre_repetido(alumnos, nombre):
+            print(" Ese alumno ya está registrado. Escribe otro nombre.")
+        elif registrar_alumno(alumnos, nombre):
+            print(" Registrado. Total:", len(alumnos), " de", LIMITE_ALUMNOS)
+
+        
 
 
 # HU-02 Capturar calificaciones
@@ -65,10 +67,16 @@ def opcion_promedios():
         print("\nPrimero captura calificaciones (opción 2).")
         return
     print("\nPROMEDIO Y ESTATUS")
+    for nombre, promedio in promedios_del_grupo():
+        print(" ", nombre, "->", promedio, obtener_estatus(promedio))
+
+def promedios_del_grupo():
+    resultado = []
     for nombre in alumnos:
         if nombre in calificaciones:
             promedio = calcular_promedio(calificaciones[nombre])
-            print(" ", nombre, "->", promedio, obtener_estatus(promedio))
+            resultado.append((nombre, promedio))
+    return resultado
 
 
 # HU-04 Mostrar reporte del grupo
@@ -81,11 +89,11 @@ def opcion_reporte():
     print("Alumno | Promedio | Estatus")
     print("-" * 50)
     promedios = []
-    for nombre in alumnos:
-        if nombre in calificaciones:
-            promedio = calcular_promedio(calificaciones[nombre])
-            promedios.append(promedio)
-            print(fila_reporte(nombre, promedio))
+    for nombre, promedio in promedios_del_grupo():
+        promedios.append(promedio)
+        print(fila_reporte(nombre, promedio))
+
+            
     print("-" * 50)
     print("Promedio grupal:", promedio_grupal(promedios))
     print("Total de alumnos en el reporte:", len(promedios))

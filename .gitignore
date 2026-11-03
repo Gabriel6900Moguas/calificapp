@@ -11,3 +11,4 @@ __pycache__/
 # Archivos basura que crea Windows
 Thumbs.db
 desktop.ini
+.venv/

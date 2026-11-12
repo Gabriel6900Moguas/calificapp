@@ -14,10 +14,9 @@
 #  El menú principal, main(), llama a cada una según la opción.
 # ==============================================================
 
-from calificaciones import (LIMITE_ALUMNOS, registrar_alumno, nombre_repetido,
-                            validar_calificacion, calcular_promedio, 
-                            obtener_estatus, fila_reporte, promedio_grupal)
-
+from calificaciones import (LIMITE_ALUMNOS, registrar_alumno, nombre_repetido, validar_calificacion,
+                            calcular_promedio, obtener_estatus, fila_reporte,
+                            promedio_grupal, lista_ordenada, linea_lista)
 
 NOMBRE_APP = "CalifiApp"
 OBJETIVO = "Registrar y consultar las calificaciones de un grupo desde la consola"
@@ -35,11 +34,12 @@ def opcion_registrar():
         if nombre.strip() == "":
             break
         if nombre_repetido(alumnos, nombre):
-            print(" Ese alumno ya está registrado. Escribe otro nombre.")
+            print("  Ese alumno ya está registrado. Escribe otro nombre.")
         elif registrar_alumno(alumnos, nombre):
-            print(" Registrado. Total:", len(alumnos), " de", LIMITE_ALUMNOS)
-
-        
+            print("  Registrado. Total:", len(alumnos), "de", LIMITE_ALUMNOS)
+        else:
+            print("  No se pudo registrar: el grupo ya tiene", LIMITE_ALUMNOS, "alumnos.")
+            break
 
 
 # HU-02 Capturar calificaciones
@@ -61,6 +61,18 @@ def opcion_capturar():
         calificaciones[nombre] = parciales
 
 
+# Refactorización (PG7): un solo lugar calcula los promedios del grupo.
+# Regresa una lista de parejas (nombre, promedio) de los alumnos
+# que ya tienen calificaciones. La usan HU-03 y HU-04.
+def promedios_del_grupo():
+    resultado = []
+    for nombre in alumnos:
+        if nombre in calificaciones:
+            promedio = calcular_promedio(calificaciones[nombre])
+            resultado.append((nombre, promedio))
+    return resultado
+
+
 # HU-03 Calcular promedio y estatus
 def opcion_promedios():
     if len(calificaciones) == 0:
@@ -69,14 +81,6 @@ def opcion_promedios():
     print("\nPROMEDIO Y ESTATUS")
     for nombre, promedio in promedios_del_grupo():
         print(" ", nombre, "->", promedio, obtener_estatus(promedio))
-
-def promedios_del_grupo():
-    resultado = []
-    for nombre in alumnos:
-        if nombre in calificaciones:
-            promedio = calcular_promedio(calificaciones[nombre])
-            resultado.append((nombre, promedio))
-    return resultado
 
 
 # HU-04 Mostrar reporte del grupo
@@ -92,11 +96,24 @@ def opcion_reporte():
     for nombre, promedio in promedios_del_grupo():
         promedios.append(promedio)
         print(fila_reporte(nombre, promedio))
-
-            
     print("-" * 50)
     print("Promedio grupal:", promedio_grupal(promedios))
     print("Total de alumnos en el reporte:", len(promedios))
+
+
+# HU-05 Ver la lista del grupo
+def opcion_lista():
+    if len(alumnos) == 0:
+        print("\nAún no hay alumnos registrados (opción 1).")
+        return
+    print("\nLISTA DEL GRUPO (orden alfabético)")
+    print("-" * 50)
+    numero = 1
+    for nombre in lista_ordenada(alumnos):
+        print(linea_lista(numero, nombre))
+        numero = numero + 1
+    print("-" * 50)
+    print("Total:", len(alumnos), "de", LIMITE_ALUMNOS, "alumnos")
 
 
 # ==============================================================
@@ -113,6 +130,7 @@ def main():
         print("  2. Capturar calificaciones       (HU-02)")
         print("  3. Calcular promedio y estatus   (HU-03)")
         print("  4. Mostrar reporte del grupo     (HU-04)")
+        print("  5. Ver lista del grupo (HU-05)")
         print("  0. Salir")
         print("-" * 50)
 
@@ -126,10 +144,12 @@ def main():
             opcion_promedios()
         elif opcion == "4":
             opcion_reporte()
+        elif opcion == "5":
+            opcion_lista()
         elif opcion == "0":
             print("Gracias por usar " + NOMBRE_APP + ". ¡Hasta pronto!")
         else:
-            print("\nOpción no válida. Escribe un número del 0 al 4.")
+            print("\nOpción no válida. Escribe un número del 0 al 5.")
 
         if opcion != "0":
             input("\nPresiona ENTER para volver al menú...")

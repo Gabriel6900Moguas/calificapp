@@ -69,3 +69,10 @@ def lista_ordenada(alumnos):
 
 def linea_lista(numero, nombre):
     return str(numero) + ". " + nombre
+# HU-06 Consultar a un alumno
+def buscar_alumno(alumnos, nombre):
+    nombre = nombre.strip().lower()
+    for registrado in alumnos:
+        if registrado.lower() == nombre:
+            return registrado
+    return None

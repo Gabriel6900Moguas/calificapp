@@ -25,61 +25,17 @@ Tablero del proyecto: (pega aquí la liga de tu tablero de GitHub Projects)
 | HU-02 | Capturar calificaciones de 0 a 10 | Terminada |
 | HU-03 | Calcular promedio y estatus (aprueba con 6) | Terminada |
 | HU-04 | Mostrar reporte del grupo | Terminada |
+| HU-05 | Ver la lista del grupo en orden alfabético con su total | Terminada (Sprint 1) |
+| HU-06 | Consultar a un alumno: sus parciales y su promedio | Terminada (Sprint 1) |
+
+## Sprint 1 (9 y 10 de noviembre de 2026)
+
+**Objetivo del Sprint:** (copia aquí el objetivo de tu equipo)
+
+Incremento: opciones 5 (HU-05) y 6 (HU-06) del menú, con 5 pruebas nuevas (18 en total).
+
+Lo que aprendimos en la Sprint Review: (lo llenas en la Jugada 9)
 
 ## Cómo ejecutar
 
 Abre PowerShell **dentro de la carpeta califiapp** y escribe:
-
-```
-python src/main.py
-```
-
-Si `python` no se reconoce, usa `py src/main.py`.
-
-## Cómo correr las pruebas
-
-```
-python -m unittest discover -s tests -v
-```
-
-Debe decir **Ran 12 tests** y **OK**.
-
-## Estructura del proyecto
-
-```
-califiapp/
-├── README.md          <- la "portada" del proyecto
-├── .gitignore         <- lo que Git NO debe guardar
-├── data/
-├── src/
-│   ├── main.py            (menú de consola)
-│   └── calificaciones.py  (lógica de las HU)
-└── tests/
-    └── test_calificaciones.py  (12 pruebas)
-```
-
-## Reglas del equipo para usar Git
-
-- Antes de cada commit corre las pruebas: deben decir **OK**.
-- Un commit = un cambio con sentido. El mensaje dice **qué hiciste**:
-  - Bien: `HU-02: valida calificaciones de 0 a 10`
-  - Mal: `cambios`, `ya quedó`, `asdf`
-- Revisa con `git status` en qué estado estás (es tu GPS).
-- Si algo se rompe y no has hecho commit: `git restore .`
-- Nunca borres ni modifiques la carpeta oculta `.git`.
-- Haz `git push` **antes de apagar** o reiniciar la computadora.
-- Antes de empezar a trabajar en equipo, trae lo nuevo con `git pull`.
-- Cierra tu sesión de GitHub al terminar: la PC del laboratorio es compartida.
-
-Respaldo en la nube: este repositorio en GitHub (público, para que el docente lo revise).
-
-## El ritual de cada clase
-
-1. Instala Git: `git --version`
-2. Dile quién eres: `git config --global user.name "Tu Nombre"` y `git config --global user.email "tu@correo.com"`
-3. Baja tu proyecto: `git clone URL` y `cd califiapp`
-4. Trabaja y prueba: `python src/main.py`
-5. Toma la foto: `git add .` y `git commit -m "mensaje"`
-6. Súbelo **antes de apagar**: `git push`
-
-> La computadora olvida todo. GitHub no.
